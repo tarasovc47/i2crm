@@ -44,12 +44,12 @@ class Department extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[EmployeesDepartments]].
-     *
      * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
      */
-    public function getEmployeesDepartments()
+    public function getEmployees()
     {
-        return $this->hasMany(EmployeesDepartment::className(), ['department_id' => 'id']);
+        return $this->hasMany(Employee::class, ['id' => 'employee_id'])
+            ->viaTable('employees_departments', ['department_id' => 'id']);
     }
 }

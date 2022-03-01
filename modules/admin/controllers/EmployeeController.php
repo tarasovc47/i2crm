@@ -2,8 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Department;
 use app\models\Employee;
 use app\models\EmployeeSearch;
+use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -130,5 +133,27 @@ class EmployeeController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     * экшен установки отдела сотруднику
+     */
+    public function actionSetDepartments($id)
+    {
+        $employee = $this->findModel($id);
+        $selectedDepartments = $employee->selectedDepartments;
+        $departments = ArrayHelper::map(Department::find()->all(), 'id', 'title');
+
+        if (Yii::$app->request->isPost)
+        {
+            $departments = Yii::$app->request->post('departments');
+            $employee->saveDepartments($departments);
+            return $this->redirect(['view', 'id' => $employee->id]);
+        }
+
+        return $this->render('departments', compact('employee','departments', 'selectedDepartments'));
     }
 }
