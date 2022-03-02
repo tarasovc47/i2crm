@@ -30,6 +30,7 @@ class Employee extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 255],
+            [['name'], 'unique', 'targetClass' => 'app\models\Employee', 'targetAttribute' => 'name']
         ];
     }
 
