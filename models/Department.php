@@ -30,7 +30,8 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'string', 'max' => 255],
-            [['title'], 'unique', 'targetClass' => 'app\models\Department', 'targetAttribute' => 'title']
+            [['title'], 'unique', 'targetClass' => 'app\models\Department', 'targetAttribute' => 'title'],
+            [['title'], 'required'],
         ];
     }
 
